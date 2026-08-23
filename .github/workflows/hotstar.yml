@@ -71,9 +71,9 @@ jobs:
           curl -I $SONAR_HOST
           mvn sonar:sonar \
             -Dsonar.projectKey=hotstar \
-            -Dsonar.host.url=$SONAR_HOST \
-            -Dsonar.login=$SONAR_LOGIN
-
+            -Dsonar.host.url=http://13.41.198.191:9000 \
+            -Dsonar.login=2fd12c657e0aef17f1c5ac9bb1c4d7edabc45e6b
+         
   deploy:
     runs-on: ubuntu-latest
     needs: build
