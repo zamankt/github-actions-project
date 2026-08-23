@@ -63,29 +63,26 @@ jobs:
           sonar-scanner -v
       # 7. SonarQube analysis
       - name: SonarQube Analysis
-  env:
-    SONAR_HOST: ${{ secrets.SONAR_HOST }}
-    SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}
-  run: |
-    if [ -z "$SONAR_HOST" ]; then
-      echo "ERROR: SONAR_HOST secret is not configured or is unavailable."
-      exit 1
-    fi
+        env:
+          SONAR_HOST: ${{ secrets.SONAR_HOST }}
+          SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+         if [ -z "$SONAR_HOST" ]; then
+          echo "ERROR: SONAR_HOST secret is not configured or is unavailable."
+          exit 1
+          fi
+          if [ -z "$SONAR_LOGIN" ]; then
+          echo "ERROR: SONAR_TOKEN secret is not configured or is unavailable."
+          exit 1
+          fi
 
-    if [ -z "$SONAR_LOGIN" ]; then
-      echo "ERROR: SONAR_TOKEN secret is not configured or is unavailable."
-      exit 1
-    fi
-
-    echo "SonarQube server URL: $SONAR_HOST"
-
-    curl -f -I "$SONAR_HOST"
-
-    mvn sonar:sonar \
-      -Dsonar.projectKey=hotstar \
-      -Dsonar.host.url="$SONAR_HOST" \
-      -Dsonar.login="$SONAR_LOGIN"
-         
+          echo "SonarQube server URL: $SONAR_HOST"
+          curl -I $SONAR_HOST
+          mvn sonar:sonar \
+            -Dsonar.projectKey=hotstar \
+            -Dsonar.host.url=$SONAR_HOST \
+            -Dsonar.login=$SONAR_LOGIN
+    
   deploy:
     runs-on: ubuntu-latest
     needs: build
