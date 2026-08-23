@@ -1,1 +1,9 @@
+- name: Check SonarQube configuration
+  run: |
+    if [ -z "$SONAR_HOST" ]; then
+      echo "ERROR: SONAR_HOST is not set"
+      exit 1
+    fi
 
+    echo "SONAR_HOST is configured"
+    curl -f "$SONAR_HOST"
